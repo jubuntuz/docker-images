@@ -1,0 +1,30 @@
+version: '1.0'
+
+services:
+  maven:
+    image: browser-jdk-maven:1.0
+    container_name: ${MAVEN_CONTAINER_NAME}
+    network_mode: "host"
+    env_file:
+      - .env   
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ../../grs:/var/www/gre
+      - ../:/home/gre/qa
+      - ../response:/home/gre/qa_auto
+      - ./cd/:/etc/apache2/sites-available/
+      - ./symbolic-link/:/etc/apache2/sites-enabled/
+      - ./update-hosts.sh:/update-hosts.sh
+      - ./startup.bash:/startup.bash
+      - ./initial-task.sh:/initial-task.sh
+    networks:
+      - docker_default
+
+networks:
+  docker_default:
+    external: true
+
+#  grs2:
+#    extends:
+#      file: ${GRS2_COMPOSE_PATH}
+#      service: grs2
